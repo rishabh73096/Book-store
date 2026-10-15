@@ -12,9 +12,16 @@ export function BookGallery({ title, images }: { title: string; images: string[]
   return (
     <div className="flex flex-col gap-5">
       <div className="mx-auto w-[72%] max-w-md md:w-full">
-        <Tilt>
-          <BookCover title={title} image={images[active]} priority sizes="(min-width: 768px) 40vw, 72vw" />
-        </Tilt>
+        {active === 0 ? (
+          <Tilt>
+            <BookCover title={title} image={images[0]} priority sizes="(min-width: 768px) 40vw, 72vw" />
+          </Tilt>
+        ) : (
+          // Extra images are photographs, not the cover: plain framed, no spine shading.
+          <div className="relative aspect-[2/3] w-full overflow-hidden border-2 border-ink bg-paper-deep shadow-book">
+            <Image src={images[active]} alt={`${title} — photo ${active + 1} of ${images.length}`} fill sizes="(min-width: 768px) 40vw, 72vw" className="object-cover" />
+          </div>
+        )}
       </div>
       {images.length > 1 && (
         <ul className="flex flex-wrap justify-center gap-3" aria-label="Book images">

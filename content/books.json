@@ -17,7 +17,9 @@
     "stock": 25,
     "featured": true,
     "images": [
-      "/books/book-1.jpg"
+      "/books/covers/quiet-hours.png",
+      "/books/photos/open-book-dark.jpg",
+      "/books/photos/book-edge.jpg"
     ]
   },
   {
@@ -38,7 +40,9 @@
     "stock": 25,
     "featured": false,
     "images": [
-      "/books/book-2.jpg"
+      "/books/covers/soft-return.png",
+      "/books/photos/blank-book-pink.jpg",
+      "/books/photos/open-book-bench.jpg"
     ]
   },
   {
@@ -59,7 +63,9 @@
     "stock": 25,
     "featured": false,
     "images": [
-      "/books/book-3.jpg"
+      "/books/covers/the-long-way-home.png",
+      "/books/photos/open-book-bench.jpg",
+      "/books/photos/blank-book-leaves.jpg"
     ]
   },
   {
@@ -80,7 +86,9 @@
     "stock": 25,
     "featured": false,
     "images": [
-      "/books/old-books-shelf.jpg"
+      "/books/covers/small-mercies.png",
+      "/books/photos/blank-book-white.jpg",
+      "/books/photos/book-edge.jpg"
     ]
   },
   {
@@ -101,7 +109,9 @@
     "stock": 25,
     "featured": false,
     "images": [
-      "/books/book-stack-monochrome.jpg"
+      "/books/covers/letters-to-someone-kind.png",
+      "/books/photos/blank-book-pink.jpg",
+      "/books/photos/open-book-dark.jpg"
     ]
   },
   {
@@ -122,7 +132,9 @@
     "stock": 25,
     "featured": false,
     "images": [
-      "/books/open-books-wall.jpg"
+      "/books/covers/unlearning.png",
+      "/books/photos/blank-book-leaves.jpg",
+      "/books/photos/blank-book-white.jpg"
     ]
   }
 ]
