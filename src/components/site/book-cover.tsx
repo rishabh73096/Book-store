@@ -1,8 +1,7 @@
 import Image from "next/image";
 import { cn } from "@/lib/utils";
 
-// 2:3 book object. Always the owner's real cover image (books without one are not shown on
-// the public site). Spine shading and a soft shadow give it a physical presence.
+// 2:3 framed book image (books without an image are not shown on the public site).
 export function BookCover({
   title,
   image,
@@ -25,14 +24,6 @@ export function BookCover({
         sizes={sizes}
         priority={priority}
         className="object-cover object-top"
-      />
-      <span
-        aria-hidden
-        className="pointer-events-none absolute inset-0"
-        style={{
-          background:
-            "linear-gradient(90deg, rgb(0 0 0 / .28) 0, rgb(255 255 255 / .14) 2.5%, rgb(0 0 0 / .08) 5%, transparent 9%)",
-        }}
       />
     </div>
   );

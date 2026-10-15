@@ -17,9 +17,9 @@
     "stock": 25,
     "featured": true,
     "images": [
-      "/books/covers/quiet-hours.png",
-      "/books/photos/open-book-dark.jpg",
-      "/books/photos/book-edge.jpg"
+      "/books/open-book-warm-light.jpg",
+      "/books/old-books-tied-with-rope.jpg",
+      "/books/dried-flowers-on-book.jpg"
     ]
   },
   {
@@ -40,9 +40,9 @@
     "stock": 25,
     "featured": false,
     "images": [
-      "/books/covers/soft-return.png",
-      "/books/photos/blank-book-pink.jpg",
-      "/books/photos/open-book-bench.jpg"
+      "/books/open-book-red-rose.jpg",
+      "/books/open-book-pink-flower.jpg",
+      "/books/open-book-with-vase.jpg"
     ]
   },
   {
@@ -63,9 +63,9 @@
     "stock": 25,
     "featured": false,
     "images": [
-      "/books/covers/the-long-way-home.png",
-      "/books/photos/open-book-bench.jpg",
-      "/books/photos/blank-book-leaves.jpg"
+      "/books/open-book-dried-wheat.jpg",
+      "/books/open-book-leaf-bookmark.jpg",
+      "/books/open-notebook-autumn-leaves.jpg"
     ]
   },
   {
@@ -86,9 +86,9 @@
     "stock": 25,
     "featured": false,
     "images": [
-      "/books/covers/small-mercies.png",
-      "/books/photos/blank-book-white.jpg",
-      "/books/photos/book-edge.jpg"
+      "/books/open-book-with-tea.jpg",
+      "/books/floral-book-with-candle.jpg",
+      "/books/open-book-poem-page.jpg"
     ]
   },
   {
@@ -109,9 +109,9 @@
     "stock": 25,
     "featured": false,
     "images": [
-      "/books/covers/letters-to-someone-kind.png",
-      "/books/photos/blank-book-pink.jpg",
-      "/books/photos/open-book-dark.jpg"
+      "/books/open-book-vase-on-linen.jpg",
+      "/books/open-book-petals-on-linen.jpg",
+      "/books/open-book-pink-flower.jpg"
     ]
   },
   {
@@ -132,9 +132,9 @@
     "stock": 25,
     "featured": false,
     "images": [
-      "/books/covers/unlearning.png",
-      "/books/photos/blank-book-leaves.jpg",
-      "/books/photos/blank-book-white.jpg"
+      "/books/open-book-monochrome.jpg",
+      "/books/open-book-warm-light.jpg",
+      "/books/open-book-dried-wheat.jpg"
     ]
   }
 ]
