@@ -508,3 +508,11 @@ h1 { font-family: var(--font-heading); }
 [data-slot="card-header"] { row-gap: 0.4rem; }
 [data-slot="card-content"] { padding-top: 0.25rem; }
 main > div > .flex.flex-col.gap-6 { gap: 2rem; }
+
+@keyframes route-fade { from { opacity: 0; } to { opacity: 1; } }
+.route-fade { animation: route-fade 0.25s ease-out both; }
+@media (prefers-reduced-motion: reduce) { .route-fade { animation: none; } }
+
+/* Never allow sideways scrolling/wobble on phones (hard shadows and offset blocks sit near the edge). */
+html, body { overflow-x: clip; }
+.site { overflow-x: clip; }

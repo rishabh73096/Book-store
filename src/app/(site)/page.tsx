@@ -65,7 +65,7 @@ export default async function HomePage() {
 
       {/* 02 — Hero */}
       <section aria-labelledby="hero-title" className="overflow-hidden border-b-2 border-ink">
-        <div className="container-site grid items-center gap-14 pt-10 pb-20 md:grid-cols-12 md:pt-16 md:pb-28">
+        <div className="container-site grid items-center gap-10 md:gap-14 pt-8 pb-14 md:grid-cols-12 md:pt-16 md:pb-28">
           <div className="md:col-span-7">
             <p className="rise-in"><span className="sticker">{name} · new here? start below</span></p>
             <h1 id="hero-title" className="t-hero rise-in mt-8" style={delay(120)}>
@@ -112,9 +112,9 @@ export default async function HomePage() {
       )}
 
       {/* 03 — Featured books */}
-      <section aria-labelledby="featured-title" className="py-20 md:py-28">
+      <section aria-labelledby="featured-title" className="py-14 md:py-28">
         <div className="container-site">
-          <Reveal className="mb-12 flex flex-wrap items-end justify-between gap-6">
+          <Reveal className="mb-8 flex flex-wrap items-end md:mb-12 justify-between gap-6">
             <div>
               <Label n="01">Featured books</Label>
               <h2 id="featured-title" className="t-h1 mt-6">{hasBooks ? <>Start with <span className="mark">these.</span></> : "The first books are coming."}</h2>
@@ -144,7 +144,7 @@ export default async function HomePage() {
               {shelf.length > 0 && (
                 <ul className="grid grid-cols-2 gap-x-5 gap-y-14 lg:grid-cols-4 lg:gap-x-8">
                   {shelf.map((book, i) => (
-                    <Reveal as="li" key={book.id} delay={i * 90}><BookCard book={book} index={i + 1} /></Reveal>
+                    <Reveal as="li" key={book.id} delay={i * 90} className="h-full"><BookCard book={book} index={i + 1} /></Reveal>
                   ))}
                 </ul>
               )}
@@ -191,7 +191,7 @@ export default async function HomePage() {
       </section>
 
       {/* 05 — Meet the author */}
-      <section aria-labelledby="author-title" className="py-20 md:py-28">
+      <section aria-labelledby="author-title" className="py-14 md:py-28">
         <div className="container-site grid items-center gap-12 md:grid-cols-12">
           <Reveal className="md:col-span-5">
             <div className="relative">
@@ -219,9 +219,9 @@ export default async function HomePage() {
       </section>
 
       {/* 06 — Explore by theme */}
-      <section aria-labelledby="themes-title" className="border-y-2 border-ink bg-white py-20 md:py-28">
+      <section aria-labelledby="themes-title" className="border-y-2 border-ink bg-white py-14 md:py-28">
         <div className="container-site">
-          <Reveal className="mb-12">
+          <Reveal className="mb-8 md:mb-12">
             <Label n="04">Explore by theme</Label>
             <h2 id="themes-title" className="t-h1 mt-6">Find your <span className="mark">way in.</span></h2>
           </Reveal>
@@ -243,7 +243,7 @@ export default async function HomePage() {
       </section>
 
       {/* 07 — Why read these books */}
-      <section aria-labelledby="why-title" className="bg-sage py-20 md:py-28">
+      <section aria-labelledby="why-title" className="bg-sage py-14 md:py-28">
         <div className="container-site grid items-center gap-12 md:grid-cols-12">
           <div className="md:col-span-6 md:order-2 md:col-start-7">
             <Reveal>

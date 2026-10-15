@@ -16,7 +16,10 @@ export const bookSchema = z
   format: z.string().trim().max(40).default(""),
   price: z.number().min(0, "Price must be 0 or more"),
   mrp: z.number().min(0).default(0),
-  images: z.array(z.string().url()).max(10).default([]),
+  images: z
+      .array(z.string().refine((v) => /^https?:\/\//.test(v) || v.startsWith("/"), "Invalid image URL"))
+      .max(10)
+      .default([]),
   stock: z.number().int().min(0).default(0),
   isbn: z.string().trim().max(30).default(""),
   language: z.string().trim().max(40).default("English"),

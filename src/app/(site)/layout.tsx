@@ -48,7 +48,7 @@ export default async function SiteLayout({ children }: { children: React.ReactNo
             target="_blank"
             rel="noreferrer"
             aria-label="Chat on WhatsApp"
-            className="btn-primary fixed right-4 bottom-20 z-30 md:bottom-4 shadow-lg"
+            className="btn-ghost bg-sage fixed right-3 bottom-3 z-30 md:right-4 md:bottom-4"
           >
             WhatsApp
           </Link>

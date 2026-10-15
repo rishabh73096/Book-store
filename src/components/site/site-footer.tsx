@@ -7,7 +7,7 @@ export function SiteFooter({ settings }: { settings: SiteSettings }) {
 
   return (
     <footer className="border-t-2 border-ink bg-ink text-paper">
-      <div className="container-site grid gap-12 py-16 md:grid-cols-12 md:py-20">
+      <div className="container-site grid gap-10 py-12 md:grid-cols-12 md:gap-12 md:py-20">
         <div className="md:col-span-6">
           <Logo name={settings.authorName} />
           {settings.tagline && <p className="mt-4 max-w-sm text-paper/80">{settings.tagline}</p>}

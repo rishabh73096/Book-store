@@ -36,7 +36,7 @@ export function BookCard({ book, index, priority }: { book: SiteBook; index?: nu
             {formatPrice(book.price)}
             {book.mrp > book.price && <s className="ml-2 text-ink/60">{formatPrice(book.mrp)}</s>}
           </span>
-          <Link href={`/books/${book.slug}`} className="site-link">
+          <Link href={`/books/${book.slug}`} className="site-link hidden sm:inline">
             View book
           </Link>
         </p>

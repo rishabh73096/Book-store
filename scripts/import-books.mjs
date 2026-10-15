@@ -1,5 +1,6 @@
 // Usage: node --env-file=.env.local scripts/import-books.mjs
-// Copies content/books.json into MongoDB (upsert by slug) so the books can be ordered.
+// Copies content/books.json (and content/site.json) into MongoDB so the books can be ordered
+// and everything is editable from the dashboard. Books are upserted by slug.
 import { readFile } from "node:fs/promises";
 import mongoose from "mongoose";
 
@@ -18,4 +19,7 @@ for (const { id, ...book } of books) {
   );
   console.log("imported", book.slug);
 }
+const site = JSON.parse(await readFile(new URL("../content/site.json", import.meta.url), "utf8"));
+await mongoose.connection.collection("sitesettings").updateOne({}, { $set: site }, { upsert: true });
+console.log("imported site settings");
 await mongoose.disconnect();

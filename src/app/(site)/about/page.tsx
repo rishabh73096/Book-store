@@ -20,7 +20,7 @@ function Block({ index, title, items }: { index: string; title: string; items: s
     <Reveal className="grid gap-4 border-t border-ink/15 py-10 md:grid-cols-12">
       <h2 className="md:col-span-4">
         <span className="t-meta flex gap-4 text-ink/75">
-          <span className="text-clay" aria-hidden>{index}</span>
+          <span className="text-plum" aria-hidden>{index}</span>
           {title}
         </span>
       </h2>
@@ -73,7 +73,7 @@ export default async function AboutPage() {
         {s.statement && (
           <Reveal className="grid gap-4 border-t border-ink/15 py-10 md:grid-cols-12">
             <h2 className="md:col-span-4">
-              <span className="t-meta flex gap-4 text-ink/75"><span className="text-clay" aria-hidden>{num()}</span>A message to readers</span>
+              <span className="t-meta flex gap-4 text-ink/75"><span className="text-plum" aria-hidden>{num()}</span>A message to readers</span>
             </h2>
             <blockquote className="font-display text-3xl leading-snug italic md:col-span-7 md:col-start-6 md:text-4xl">{s.statement}</blockquote>
           </Reveal>

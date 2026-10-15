@@ -101,7 +101,7 @@ export function SiteHeader({ name }: { name: string }) {
               aria-current={isActive(l.href) ? "page" : undefined}
               className="t-h2 flex items-baseline gap-4 border-t border-ink/15 py-3 hover:text-plum"
             >
-              <span className="t-meta text-clay" aria-hidden>
+              <span className="t-meta text-plum" aria-hidden>
                 {String(i + 1).padStart(2, "0")}
               </span>
               {l.label}

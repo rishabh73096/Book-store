@@ -17,7 +17,7 @@ export function SectionHeading({
   return (
     <Reveal className={cn("mb-10 md:mb-14", className)}>
       <p className="t-meta flex items-center gap-4 border-t border-ink/15 pt-3 text-ink/70">
-        <span className="text-clay" aria-hidden>
+        <span className="text-plum" aria-hidden>
           {index}
         </span>
         <span>{label}</span>

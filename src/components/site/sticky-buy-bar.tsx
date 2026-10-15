@@ -8,7 +8,7 @@ export function StickyBuyBar({ book }: { book: Omit<CartItem, "quantity"> }) {
   const { add } = useCart();
   if (book.stock <= 0) return null;
   return (
-    <div className="fixed inset-x-0 bottom-0 z-30 flex items-center justify-between gap-4 border-t border-ink/15 bg-paper px-5 py-3 md:hidden">
+    <div className="fixed inset-x-0 bottom-0 z-30 flex items-center justify-between gap-3 border-t-2 border-ink bg-paper py-3 pr-36 pl-4 md:hidden">
       <div className="min-w-0">
         <p className="truncate font-display text-lg leading-tight">{book.title}</p>
         <p className="text-[0.95rem]">{formatPrice(book.price)}</p>

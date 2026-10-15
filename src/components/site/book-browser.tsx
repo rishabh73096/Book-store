@@ -90,7 +90,7 @@ export function BookBrowser({ books, initialCategory }: { books: SiteBook[]; ini
         ) : (
           <ul className="grid grid-cols-2 gap-x-5 gap-y-14 md:grid-cols-3 md:gap-x-8">
             {visible.map((book, i) => (
-              <Reveal as="li" key={book.id} delay={(i % 3) * 80}>
+              <Reveal as="li" key={book.id} delay={(i % 3) * 80} className="h-full">
                 <BookCard book={book} index={i} priority={i < 2} />
               </Reveal>
             ))}
