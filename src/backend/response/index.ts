@@ -17,6 +17,12 @@ export const response = {
   error(message: string, status = 400) {
     return NextResponse.json({ success: false, error: message }, { status });
   },
+  tooMany(retryAfter: number) {
+    return NextResponse.json(
+      { success: false, error: "Too many attempts. Please wait a little and try again." },
+      { status: 429, headers: { "Retry-After": String(retryAfter) } }
+    );
+  },
   unavailable(message = "Service temporarily unavailable. Please try again later.") {
     return NextResponse.json({ success: false, error: message }, { status: 503 });
   },

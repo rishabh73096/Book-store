@@ -43,6 +43,13 @@ export async function apiRequest<T>(path: string, options: RequestOptions = {}):
     // do that automatically instead of overriding it is required for uploads to work.
     headers: body && !isFormData ? { "Content-Type": "application/json" } : undefined,
     body: body ? (isFormData ? body : JSON.stringify(body)) : undefined,
+  }).catch(() => {
+    throw new ApiError(
+      typeof navigator !== "undefined" && !navigator.onLine
+        ? "You're offline. Check your internet connection and try again."
+        : "Couldn't reach the server. Please try again.",
+      0
+    );
   });
 
   if (res.status === 401 && retryOn401 && path !== "/auth/refresh") {

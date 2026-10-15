@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useCart } from "@/components/site/cart-provider";
+import { CartNotices } from "@/components/site/cart-notices";
 import { shippingFor } from "@/components/site/cart-view";
 import { startCheckout, verifyPayment } from "@/services/order.service";
 import { ApiError } from "@/services/api";
@@ -85,7 +86,7 @@ function validate(v: typeof EMPTY): Errors {
 
 export function CheckoutForm({ shippingCharge, freeShippingAbove }: { shippingCharge: number; freeShippingAbove: number }) {
   const router = useRouter();
-  const { items, subtotal, ready, clear } = useCart();
+  const { items, subtotal, ready, clear, hasUnavailable } = useCart();
   const [step, setStep] = useState<"delivery" | "pay">("delivery");
   const [customer, setCustomer] = useState(EMPTY);
   const [errors, setErrors] = useState<Errors>({});
@@ -108,6 +109,16 @@ export function CheckoutForm({ shippingCharge, freeShippingAbove }: { shippingCh
       <div className="flex flex-col items-start gap-5">
         <p className="font-display text-3xl">Your cart is empty.</p>
         <Link href="/books" className="btn-primary">Browse books</Link>
+      </div>
+    );
+  }
+
+  if (hasUnavailable) {
+    return (
+      <div className="flex flex-col items-start gap-5">
+        <CartNotices />
+        <p className="font-display text-3xl">Some books in your cart are no longer available.</p>
+        <Link href="/cart" className="btn-primary">Review cart</Link>
       </div>
     );
   }
@@ -174,6 +185,10 @@ export function CheckoutForm({ shippingCharge, freeShippingAbove }: { shippingCh
   }
 
   async function pay() {
+    if (typeof navigator !== "undefined" && !navigator.onLine) {
+      setError("You're offline. Reconnect to the internet to complete payment.");
+      return;
+    }
     setBusy(true);
     setError(null);
     try {
@@ -228,6 +243,7 @@ export function CheckoutForm({ shippingCharge, freeShippingAbove }: { shippingCh
 
   return (
     <div className="flex flex-col gap-10">
+      <CartNotices />
       <ol className="t-meta flex flex-wrap gap-x-6 gap-y-2" aria-label="Checkout steps">
         {steps.map(([label, href], i) => (
           <li key={label} aria-current={i === current ? "step" : undefined} className={cn("flex items-center gap-2 border-b pb-1", i === current ? "border-plum text-plum" : "border-transparent text-ink/60")}>

@@ -516,3 +516,16 @@ main > div > .flex.flex-col.gap-6 { gap: 2rem; }
 /* Never allow sideways scrolling/wobble on phones (hard shadows and offset blocks sit near the edge). */
 html, body { overflow-x: clip; }
 .site { overflow-x: clip; }
+
+/* Announcement ticker (mobile). Two identical halves, shifted by exactly one half = seamless loop. */
+.marquee { overflow: hidden; white-space: nowrap; padding-block: 0.55rem; }
+.marquee-track { display: inline-flex; width: max-content; animation: marquee 28s linear infinite; }
+.marquee-item { display: inline-flex; }
+.marquee:hover .marquee-track, .marquee:focus-within .marquee-track { animation-play-state: paused; }
+@keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+@media (prefers-reduced-motion: reduce) {
+  .marquee { text-align: center; white-space: normal; padding-inline: 1rem; }
+  .marquee-track { animation: none; width: auto; display: block; }
+  .marquee-item:nth-child(n + 2), .marquee-item > span:nth-child(n + 2) { display: none; }
+  .marquee-item > span > span { display: none; }
+}

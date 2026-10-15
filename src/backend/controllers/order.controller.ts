@@ -2,7 +2,9 @@ import { isValidObjectId } from "mongoose";
 import { connectDB } from "@/backend/config/db";
 import { Book } from "@/backend/models/Book";
 import { Order, type IOrder, type OrderStatus } from "@/backend/models/Order";
+import { NEXT_STATUSES, STATUS_LABEL } from "@/lib/order-status";
 import { getSettings } from "@/backend/controllers/settings.controller";
+import { MAX_QTY_PER_BOOK } from "@/lib/limits";
 import { createRazorpayOrder, getRazorpayKeyId } from "@/backend/lib/razorpay";
 import type { CheckoutInput } from "@/lib/validations/order";
 
@@ -33,6 +35,12 @@ export async function createCheckout(input: CheckoutInput) {
   const merged = new Map<string, number>();
   for (const item of input.items) {
     merged.set(item.bookId, (merged.get(item.bookId) ?? 0) + item.quantity);
+  }
+
+  for (const qty of merged.values()) {
+    if (qty > MAX_QTY_PER_BOOK) {
+      throw new OrderError(`You can buy at most ${MAX_QTY_PER_BOOK} copies of a book per order`);
+    }
   }
 
   const books = await Book.find({ _id: { $in: [...merged.keys()] }, published: true });
@@ -88,21 +96,40 @@ export async function createCheckout(input: CheckoutInput) {
   };
 }
 
-// Idempotent: called from both the browser callback and the webhook. Stock is only
-// reduced the first time an order moves out of pending_payment/failed into paid.
-export async function markOrderPaid(razorpayOrderId: string, razorpayPaymentId: string) {
+// Idempotent: called from both the browser callback and the webhook. The status flip is atomic,
+// so only one caller proceeds to take stock. Stock is taken per line with a "stock >= qty" guard:
+// if someone else bought the last copy first, the order stays paid (we hold the money) but is
+// flagged for the admin to refund or contact the customer.
+export async function markOrderPaid(razorpayOrderId: string, razorpayPaymentId: string, paidPaise?: number) {
   await connectDB();
+
+  const existing = await Order.findOne({ razorpayOrderId });
+  if (!existing) return null;
+  if (paidPaise !== undefined && Math.round(existing.total * 100) !== paidPaise) {
+    if (existing.status === "pending_payment" || existing.status === "failed") {
+      existing.trackingNote = `AMOUNT MISMATCH: expected ${existing.total * 100} paise, gateway reported ${paidPaise}. Check Razorpay payment ${razorpayPaymentId}.`;
+      await existing.save();
+    }
+    return existing.toObject() as OrderDoc;
+  }
+
   const order = await Order.findOneAndUpdate(
     { razorpayOrderId, status: { $in: ["pending_payment", "failed"] } },
     { status: "paid", razorpayPaymentId },
     { new: true }
   );
-  if (!order) {
-    return Order.findOne({ razorpayOrderId }).lean<OrderDoc | null>();
-  }
+  if (!order) return existing.toObject() as OrderDoc;
+
+  const shortages: string[] = [];
   for (const item of order.items) {
-    await Book.updateOne({ _id: item.book }, { $inc: { stock: -item.quantity } });
+    const res = await Book.updateOne({ _id: item.book, stock: { $gte: item.quantity } }, { $inc: { stock: -item.quantity } });
+    if (res.modifiedCount === 1) item.stockTaken = true;
+    else shortages.push(`${item.title} (wanted ${item.quantity})`);
   }
+  if (shortages.length > 0) {
+    order.trackingNote = `STOCK SHORTAGE: ${shortages.join(", ")}. Payment was received — refund or contact the customer.`;
+  }
+  await order.save();
   return order.toObject() as OrderDoc;
 }
 
@@ -113,8 +140,8 @@ export async function markOrderFailed(razorpayOrderId: string) {
 
 export async function getOrders({ paidOnly = false } = {}) {
   await connectDB();
-  const filter = paidOnly ? { status: { $ne: "pending_payment" } } : {};
-  return Order.find(filter).sort({ createdAt: -1 }).lean<OrderDoc[]>();
+  const filter: Record<string, unknown> = paidOnly ? { status: { $ne: "pending_payment" } } : {};
+  return Order.find(filter).sort({ createdAt: -1 }).limit(500).lean<OrderDoc[]>();
 }
 
 export async function getOrderByNumber(orderNumber: string) {
@@ -124,11 +151,36 @@ export async function getOrderByNumber(orderNumber: string) {
 
 export async function updateOrder(id: string, input: { status?: OrderStatus; trackingNote?: string }) {
   await connectDB();
-  try {
-    return await Order.findByIdAndUpdate(id, input, { new: true });
-  } catch {
-    return null;
+  if (!isValidObjectId(id)) return null;
+
+  const order = await Order.findById(id);
+  if (!order) return null;
+
+  if (input.trackingNote !== undefined) order.trackingNote = input.trackingNote;
+
+  if (input.status && input.status !== order.status) {
+    const allowed = NEXT_STATUSES[order.status as OrderStatus];
+    if (!allowed.includes(input.status)) {
+      throw new OrderError(`An order that is "${STATUS_LABEL[order.status as OrderStatus]}" can't be changed to "${STATUS_LABEL[input.status]}".`, 409);
+    }
+    // Atomic guard: only apply if nobody changed the status meanwhile.
+    const moved = await Order.updateOne({ _id: id, status: order.status }, { status: input.status });
+    if (moved.modifiedCount !== 1) throw new OrderError("This order was just updated by someone else. Refresh and try again.", 409);
+    order.status = input.status;
+
+    // Cancelling an order whose stock was taken returns that stock exactly once.
+    if (input.status === "cancelled") {
+      for (const item of order.items) {
+        if (item.stockTaken) {
+          await Book.updateOne({ _id: item.book }, { $inc: { stock: item.quantity } });
+          item.stockTaken = false;
+        }
+      }
+    }
   }
+
+  await Order.updateOne({ _id: id }, { trackingNote: order.trackingNote, items: order.items });
+  return order;
 }
 
 export async function getOrderStats() {

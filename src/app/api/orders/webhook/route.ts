@@ -12,14 +12,19 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Invalid signature" }, { status: 400 });
   }
 
-  const event = JSON.parse(raw) as {
+  let event: {
     event: string;
-    payload?: { payment?: { entity?: { id: string; order_id: string } } };
+    payload?: { payment?: { entity?: { id: string; order_id: string; amount?: number } } };
   };
+  try {
+    event = JSON.parse(raw);
+  } catch {
+    return NextResponse.json({ error: "Invalid payload" }, { status: 400 });
+  }
   const payment = event.payload?.payment?.entity;
 
   if (payment?.order_id) {
-    if (event.event === "payment.captured") await markOrderPaid(payment.order_id, payment.id);
+    if (event.event === "payment.captured") await markOrderPaid(payment.order_id, payment.id, payment.amount);
     if (event.event === "payment.failed") await markOrderFailed(payment.order_id);
   }
 

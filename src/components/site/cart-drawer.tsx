@@ -5,11 +5,14 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { X } from "lucide-react";
 import { useCart } from "@/components/site/cart-provider";
+import { CartNotices } from "@/components/site/cart-notices";
+import { QuantityStepper } from "@/components/site/quantity-stepper";
+import { MAX_QTY_PER_BOOK } from "@/lib/limits";
 import { ShippingProgress } from "@/components/site/shipping-progress";
 import { formatPrice } from "@/lib/format";
 
 export function CartDrawer({ freeShippingAbove }: { freeShippingAbove: number }) {
-  const { items, subtotal, drawerOpen, closeDrawer, setQuantity, remove } = useCart();
+  const { items, subtotal, drawerOpen, closeDrawer, setQuantity, remove, hasUnavailable } = useCart();
   const pathname = usePathname();
   const closeRef = useRef<HTMLButtonElement>(null);
 
@@ -56,7 +59,9 @@ export function CartDrawer({ freeShippingAbove }: { freeShippingAbove: number })
           </div>
         ) : (
           <>
-            <ul className="flex-1 overflow-y-auto px-5">
+            <div className="flex-1 overflow-y-auto">
+            <div className="px-5 pt-4 empty:hidden"><CartNotices /></div>
+            <ul className="px-5">
               {items.map((item) => (
                 <li key={item.bookId} className="flex gap-4 border-b border-ink/15 py-5">
                   {item.image && (
@@ -65,20 +70,14 @@ export function CartDrawer({ freeShippingAbove }: { freeShippingAbove: number })
                   )}
                   <div className="flex min-w-0 flex-1 flex-col">
                     <Link href={`/books/${item.slug}`} className="font-display text-xl leading-tight hover:text-plum">{item.title}</Link>
-                    <p className="mt-1 text-[0.95rem]">{formatPrice(item.price)}</p>
+                    <p className="mt-1 text-[0.95rem]">{item.unavailable ? <strong>{item.stock === 0 ? "Out of stock" : "No longer available"}</strong> : formatPrice(item.price)}</p>
                     <div className="mt-auto flex items-center justify-between gap-3 pt-3">
-                      <label className="flex items-center gap-2 text-[0.95rem]">
-                        Qty
-                        <input
-                          type="number"
-                          inputMode="numeric"
-                          min={1}
-                          max={item.stock}
-                          value={item.quantity}
-                          onChange={(e) => setQuantity(item.bookId, Number(e.target.value) || 1)}
-                          className="site-input w-16"
-                        />
-                      </label>
+                      {item.unavailable ? <span /> : <QuantityStepper
+                        label={`Quantity for ${item.title}`}
+                        value={item.quantity}
+                        max={Math.min(item.stock, MAX_QTY_PER_BOOK)}
+                        onChange={(n) => setQuantity(item.bookId, n)}
+                      />}
                       <button type="button" className="site-link min-h-11" onClick={() => remove(item.bookId)} aria-label={`Remove ${item.title}`}>
                         Remove
                       </button>
@@ -87,11 +86,12 @@ export function CartDrawer({ freeShippingAbove }: { freeShippingAbove: number })
                 </li>
               ))}
             </ul>
+            </div>
             <div className="flex flex-col gap-4 border-t border-ink/15 p-5">
               <ShippingProgress subtotal={subtotal} freeShippingAbove={freeShippingAbove} />
               <p className="flex justify-between font-display text-2xl"><span>Subtotal</span><span>{formatPrice(subtotal)}</span></p>
-              <p className="text-[0.9rem] text-ink/70">Shipping is calculated at checkout.</p>
-              <Link href="/checkout" className="btn-primary">Checkout</Link>
+              <p className="text-[0.9rem] text-ink/70">Shipping is calculated at checkout. Limit: {MAX_QTY_PER_BOOK} copies per book.</p>
+              {hasUnavailable ? <p role="alert" className="border-l-4 border-plum pl-3 text-[0.95rem]">Remove unavailable items to check out.</p> : <Link href="/checkout" className="btn-primary">Checkout</Link>}
               <Link href="/cart" className="btn-ghost">View full cart</Link>
             </div>
           </>

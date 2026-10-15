@@ -1,14 +1,20 @@
 import { z } from "zod";
+import { MAX_QTY_PER_BOOK } from "@/lib/limits";
 
 export const checkoutSchema = z.object({
   items: z
     .array(
       z.object({
         bookId: z.string().min(1),
-        quantity: z.number().int().min(1).max(20),
+        quantity: z
+          .number()
+          .int()
+          .min(1)
+          .max(MAX_QTY_PER_BOOK, `You can buy at most ${MAX_QTY_PER_BOOK} copies of a book`),
       })
     )
-    .min(1, "Your cart is empty"),
+    .min(1, "Your cart is empty")
+    .max(20, "Too many different books in one order"),
   customer: z.object({
     name: z.string().trim().min(2, "Enter your full name").max(100),
     email: z.email("Enter a valid email address").trim().toLowerCase(),

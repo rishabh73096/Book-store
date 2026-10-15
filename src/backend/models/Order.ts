@@ -1,14 +1,8 @@
 import { Schema, models, model } from "mongoose";
 
-export const ORDER_STATUSES = [
-  "pending_payment",
-  "paid",
-  "shipped",
-  "delivered",
-  "cancelled",
-  "failed",
-] as const;
-export type OrderStatus = (typeof ORDER_STATUSES)[number];
+import { ORDER_STATUSES, type OrderStatus } from "@/lib/order-status";
+export { ORDER_STATUSES };
+export type { OrderStatus };
 
 export interface IOrderItem {
   book: string;
@@ -16,6 +10,7 @@ export interface IOrderItem {
   image: string;
   price: number;
   quantity: number;
+  stockTaken?: boolean;
 }
 
 export interface IOrder {
@@ -47,6 +42,7 @@ const OrderItemSchema = new Schema<IOrderItem>(
     image: { type: String, default: "" },
     price: { type: Number, required: true },
     quantity: { type: Number, required: true, min: 1 },
+    stockTaken: { type: Boolean, default: false },
   },
   { _id: false }
 );
@@ -73,4 +69,6 @@ const OrderSchema = new Schema<IOrder>({
   createdAt: { type: Date, default: Date.now },
 });
 
-export const Order = models.Order || model<IOrder>("Order", OrderSchema);
+// In dev, hot reload keeps the first compiled model; drop it so schema changes are picked up.
+delete models.Order;
+export const Order = model<IOrder>("Order", OrderSchema);

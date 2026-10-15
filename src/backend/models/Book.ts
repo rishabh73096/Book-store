@@ -42,4 +42,6 @@ const BookSchema = new Schema<IBook>({
   createdAt: { type: Date, default: Date.now },
 });
 
-export const Book = models.Book || model<IBook>("Book", BookSchema);
+// In dev, hot reload keeps the first compiled model; drop it so schema changes are picked up.
+delete models.Book;
+export const Book = model<IBook>("Book", BookSchema);

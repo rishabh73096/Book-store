@@ -2,6 +2,9 @@
 
 import Link from "next/link";
 import { useCart } from "@/components/site/cart-provider";
+import { CartNotices } from "@/components/site/cart-notices";
+import { QuantityStepper } from "@/components/site/quantity-stepper";
+import { MAX_QTY_PER_BOOK } from "@/lib/limits";
 import { ShippingProgress } from "@/components/site/shipping-progress";
 import { formatPrice } from "@/lib/format";
 
@@ -10,7 +13,7 @@ export function shippingFor(subtotal: number, shippingCharge: number, freeShippi
 }
 
 export function CartView({ shippingCharge, freeShippingAbove }: { shippingCharge: number; freeShippingAbove: number }) {
-  const { items, subtotal, ready, setQuantity, remove } = useCart();
+  const { items, subtotal, ready, hasUnavailable, setQuantity, remove } = useCart();
 
   if (!ready) return <p aria-busy="true">Loading your cart…</p>;
   if (items.length === 0) {
@@ -25,31 +28,33 @@ export function CartView({ shippingCharge, freeShippingAbove }: { shippingCharge
   const shipping = shippingFor(subtotal, shippingCharge, freeShippingAbove);
 
   return (
+    <div className="flex flex-col gap-8">
+    <CartNotices />
     <div className="grid gap-12 lg:grid-cols-12">
       <ul className="flex flex-col border-t border-ink/15 lg:col-span-8">
         {items.map((item) => (
-          <li key={item.bookId} className="flex flex-wrap items-center gap-5 border-b border-ink/15 py-6">
+          <li key={item.bookId} className={`flex flex-wrap items-center gap-5 border-b border-ink/15 py-6 ${item.unavailable ? "opacity-60" : ""}`}>
             {item.image && (
               // eslint-disable-next-line @next/next/no-img-element
               <img src={item.image} alt="" className="aspect-[2/3] w-16 object-cover shadow-book" />
             )}
             <div className="min-w-44 flex-1">
               <Link href={`/books/${item.slug}`} className="t-h3 hover:text-plum">{item.title}</Link>
-              <p className="mt-1">{formatPrice(item.price)}</p>
+              <p className="mt-1">{item.unavailable ? <strong>{item.stock === 0 ? "Out of stock" : "No longer available"} — remove to continue</strong> : formatPrice(item.price)}</p>
             </div>
-            <label className="flex flex-col gap-1">
+            {!item.unavailable && (<div className="flex flex-col gap-1">
               <span className="t-meta">Qty</span>
-              <input
-                type="number"
-                inputMode="numeric"
-                min={1}
-                max={item.stock}
+              <QuantityStepper
+                label={`Quantity for ${item.title}`}
                 value={item.quantity}
-                onChange={(e) => setQuantity(item.bookId, Number(e.target.value) || 1)}
-                className="site-input w-20"
+                max={Math.min(item.stock, MAX_QTY_PER_BOOK)}
+                onChange={(n) => setQuantity(item.bookId, n)}
               />
-            </label>
-            <span className="w-24 text-right font-display text-2xl">{formatPrice(item.price * item.quantity)}</span>
+              {item.quantity >= Math.min(item.stock, MAX_QTY_PER_BOOK) && (
+                <span className="text-[0.8rem]">Limit: {MAX_QTY_PER_BOOK} per book</span>
+              )}
+            </div>)}
+            {!item.unavailable && <span className="w-24 text-right font-display text-2xl">{formatPrice(item.price * item.quantity)}</span>}
             <button type="button" className="site-link min-h-11" onClick={() => remove(item.bookId)} aria-label={`Remove ${item.title}`}>
               Remove
             </button>
@@ -65,8 +70,13 @@ export function CartView({ shippingCharge, freeShippingAbove }: { shippingCharge
           <div className="flex justify-between"><dt>Shipping</dt><dd>{shipping === 0 ? "Free" : formatPrice(shipping)}</dd></div>
           <div className="flex justify-between border-t border-ink/15 pt-3 font-display text-2xl"><dt>Total</dt><dd>{formatPrice(subtotal + shipping)}</dd></div>
         </dl>
-        <Link href="/checkout" className="btn-primary mt-6 w-full">Proceed to checkout</Link>
+        {hasUnavailable ? (
+          <p role="alert" className="mt-6 border-l-4 border-plum pl-3 text-[0.95rem]">Remove the unavailable items above to continue.</p>
+        ) : (
+          <Link href="/checkout" className="btn-primary mt-6 w-full">Proceed to checkout</Link>
+        )}
       </aside>
+    </div>
     </div>
   );
 }

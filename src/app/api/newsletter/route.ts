@@ -1,11 +1,14 @@
 import { NextRequest } from "next/server";
 import { z } from "zod";
 import { subscribe } from "@/backend/controllers/newsletter.controller";
+import { clientIp, rateLimit } from "@/backend/lib/rate-limit";
 import { response } from "@/backend/response";
 
 const schema = z.object({ email: z.email("Enter a valid email address").trim().toLowerCase().max(254) });
 
 export async function POST(req: NextRequest) {
+  const limit = rateLimit(`newsletter:${clientIp(req)}`, 5, 10 * 60_000);
+  if (!limit.ok) return response.tooMany(limit.retryAfter);
   const parsed = schema.safeParse(await req.json().catch(() => null));
   if (!parsed.success) return response.validationError(parsed.error);
   try {

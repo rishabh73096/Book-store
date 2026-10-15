@@ -1,11 +1,14 @@
 import { NextRequest } from "next/server";
 import { checkoutSchema } from "@/lib/validations/order";
 import { createCheckout, OrderError } from "@/backend/controllers/order.controller";
+import { clientIp, rateLimit } from "@/backend/lib/rate-limit";
 import { response } from "@/backend/response";
 
 // Public: starts a checkout — validates the cart server-side and opens a Razorpay order.
 export async function POST(req: NextRequest) {
-  const parsed = checkoutSchema.safeParse(await req.json());
+  const limit = rateLimit(`orders:${clientIp(req)}`, 10, 10 * 60_000);
+  if (!limit.ok) return response.tooMany(limit.retryAfter);
+  const parsed = checkoutSchema.safeParse(await req.json().catch(() => null));
   if (!parsed.success) return response.validationError(parsed.error);
 
   try {

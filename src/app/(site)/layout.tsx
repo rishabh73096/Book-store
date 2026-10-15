@@ -2,6 +2,7 @@ import Link from "next/link";
 import { CartProvider } from "@/components/site/cart-provider";
 import { SiteHeader } from "@/components/site/site-header";
 import { SiteFooter } from "@/components/site/site-footer";
+import { OfflineSupport } from "@/components/site/offline-support";
 import { CartDrawer } from "@/components/site/cart-drawer";
 import { formatPrice } from "@/lib/format";
 import { getSiteBooks, getSiteSettings } from "@/lib/site-data";
@@ -33,8 +34,23 @@ export default async function SiteLayout({ children }: { children: React.ReactNo
           Skip to content
         </a>
         {announcement && (
-          <p className="t-meta bg-ink px-4 py-2 text-center text-paper">{announcement}</p>
+          <div className="bg-ink text-paper">
+            <p className="t-meta hidden px-4 py-2 text-center md:block">{announcement}</p>
+            {/* Mobile: the message scrolls continuously (static for reduced-motion users). */}
+            <div className="marquee t-meta md:hidden" role="group" aria-label={announcement}>
+              <div className="marquee-track" aria-hidden>
+                {[0, 1].map((n) => (
+                  <span key={n} className="marquee-item">
+                    {[0, 1, 2].map((m) => (
+                      <span key={m} className="px-6">{announcement}<span className="px-6 text-clay">✦</span></span>
+                    ))}
+                  </span>
+                ))}
+              </div>
+            </div>
+          </div>
         )}
+        <OfflineSupport />
         <SiteHeader name={settings.authorName} />
         <CartDrawer freeShippingAbove={settings.freeShippingAbove} />
         <main id="main" className="flex-1">

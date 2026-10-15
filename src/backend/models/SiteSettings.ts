@@ -48,5 +48,6 @@ const SiteSettingsSchema = new Schema<ISiteSettings>({
   freeShippingAbove: { type: Number, default: 500, min: 0 },
 });
 
-export const SiteSettings =
-  models.SiteSettings || model<ISiteSettings>("SiteSettings", SiteSettingsSchema);
+// In dev, hot reload keeps the first compiled model; drop it so schema changes are picked up.
+delete models.SiteSettings;
+export const SiteSettings = model<ISiteSettings>("SiteSettings", SiteSettingsSchema);

@@ -28,29 +28,26 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { NEXT_STATUSES, STATUS_LABEL, type OrderStatus } from "@/lib/order-status";
+import { ApiError } from "@/services/api";
 import { updateOrder } from "@/services/order.service";
 import { formatPrice } from "@/lib/format";
 import type { SerializedOrder } from "@/backend/controllers/order.controller";
 
-const STATUS_LABEL: Record<string, string> = {
-  pending_payment: "Awaiting payment",
-  paid: "Paid",
-  shipped: "Shipped",
-  delivered: "Delivered",
-  cancelled: "Cancelled",
-  failed: "Payment failed",
-};
-
-function StatusSelect({ status, onChange }: { status: string; onChange: (s: string) => void }) {
+function StatusSelect({ status, onChange }: { status: OrderStatus; onChange: (s: OrderStatus) => void }) {
+  const options = [status, ...NEXT_STATUSES[status]];
+  if (options.length === 1) {
+    return <span className="inline-flex h-8 items-center border-2 border-foreground bg-card px-3 text-sm font-bold">{STATUS_LABEL[status]}</span>;
+  }
   return (
-    <Select value={status} onValueChange={(v) => v && onChange(v)}>
-      <SelectTrigger className="w-40">
-        <SelectValue>{STATUS_LABEL[status] ?? status}</SelectValue>
+    <Select value={status} onValueChange={(v) => v && onChange(v as OrderStatus)}>
+      <SelectTrigger className="w-44">
+        <SelectValue>{STATUS_LABEL[status]}</SelectValue>
       </SelectTrigger>
       <SelectContent>
-        {Object.entries(STATUS_LABEL).map(([value, label]) => (
+        {options.map((value) => (
           <SelectItem key={value} value={value}>
-            {label}
+            {STATUS_LABEL[value]}
           </SelectItem>
         ))}
       </SelectContent>
@@ -58,24 +55,37 @@ function StatusSelect({ status, onChange }: { status: string; onChange: (s: stri
   );
 }
 
+const FILTERS: { key: string; label: string; match: (s: OrderStatus) => boolean }[] = [
+  { key: "active", label: "Paid & active", match: (s) => ["paid", "shipped", "delivered"].includes(s) },
+  { key: "toship", label: "To ship", match: (s) => s === "paid" },
+  { key: "unpaid", label: "Unpaid", match: (s) => s === "pending_payment" || s === "failed" },
+  { key: "cancelled", label: "Cancelled", match: (s) => s === "cancelled" },
+  { key: "all", label: "All", match: () => true },
+];
+
 export function OrdersTable({ initialOrders }: { initialOrders: SerializedOrder[] }) {
   const [orders, setOrders] = useState(initialOrders);
   const [viewing, setViewing] = useState<SerializedOrder | null>(null);
   const [note, setNote] = useState("");
   const [savingNote, setSavingNote] = useState(false);
+  const [filter, setFilter] = useState("active");
+  const [error, setError] = useState<string | null>(null);
+  const shown = orders.filter((o) => FILTERS.find((f) => f.key === filter)!.match(o.status));
 
   function patch(id: string, changes: Partial<SerializedOrder>) {
     setOrders((prev) => prev.map((o) => (o.id === id ? { ...o, ...changes } : o)));
     setViewing((prev) => (prev && prev.id === id ? { ...prev, ...changes } : prev));
   }
 
-  async function setStatus(order: SerializedOrder, status: string) {
+  async function setStatus(order: SerializedOrder, status: OrderStatus) {
     if (status === order.status) return;
-    patch(order.id, { status: status as SerializedOrder["status"] });
+    setError(null);
+    patch(order.id, { status });
     try {
       await updateOrder(order.id, { status });
-    } catch {
+    } catch (err) {
       patch(order.id, { status: order.status });
+      setError(err instanceof ApiError ? err.message : "Could not update the order. Try again.");
     }
   }
 
@@ -94,11 +104,19 @@ export function OrdersTable({ initialOrders }: { initialOrders: SerializedOrder[
       <Card>
         <CardHeader>
           <CardTitle>Orders</CardTitle>
-          <CardDescription>{orders.length} total</CardDescription>
+          <CardDescription>{shown.length} shown · {orders.length} total (latest 500)</CardDescription>
         </CardHeader>
         <CardContent>
-          {orders.length === 0 ? (
-            <p className="text-sm text-muted-foreground">No orders yet.</p>
+          <div role="group" aria-label="Filter orders" className="mb-5 flex flex-wrap gap-2">
+            {FILTERS.map((f) => (
+              <Button key={f.key} size="sm" variant={filter === f.key ? "default" : "outline"} aria-pressed={filter === f.key} onClick={() => setFilter(f.key)}>
+                {f.label}
+              </Button>
+            ))}
+          </div>
+          {error && <p role="alert" className="mb-4 border-l-4 border-destructive pl-3 text-sm">{error}</p>}
+          {shown.length === 0 ? (
+            <p className="text-sm text-muted-foreground">{orders.length === 0 ? "No orders yet." : "No orders in this view."}</p>
           ) : (
             <Table>
               <TableHeader>
@@ -112,7 +130,7 @@ export function OrdersTable({ initialOrders }: { initialOrders: SerializedOrder[
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {orders.map((order) => (
+                {shown.map((order) => (
                   <TableRow key={order.id}>
                     <TableCell className="font-medium">{order.orderNumber}</TableCell>
                     <TableCell>{order.customer.name}</TableCell>
@@ -184,6 +202,11 @@ export function OrdersTable({ initialOrders }: { initialOrders: SerializedOrder[
                     <span>{formatPrice(viewing.total)}</span>
                   </li>
                 </ul>
+                {/^(STOCK SHORTAGE|AMOUNT MISMATCH)/.test(viewing.trackingNote) && (
+                  <p role="alert" className="border-2 border-destructive bg-card p-3 text-sm font-bold text-destructive">
+                    Needs attention — {viewing.trackingNote}
+                  </p>
+                )}
                 {viewing.razorpayPaymentId && (
                   <p className="text-xs text-muted-foreground">
                     Razorpay payment: {viewing.razorpayPaymentId}

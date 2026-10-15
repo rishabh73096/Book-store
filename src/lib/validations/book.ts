@@ -14,8 +14,8 @@ export const bookSchema = z
   shortDescription: z.string().trim().max(300).default(""),
   excerpt: z.string().trim().max(5000).default(""),
   format: z.string().trim().max(40).default(""),
-  price: z.number().min(0, "Price must be 0 or more"),
-  mrp: z.number().min(0).default(0),
+  price: z.number().int("Price must be a whole number of rupees").min(1, "Price must be at least ₹1"),
+  mrp: z.number().int("MRP must be a whole number").min(0).default(0),
   images: z
       .array(z.string().refine((v) => /^https?:\/\//.test(v) || v.startsWith("/"), "Invalid image URL"))
       .max(10)
@@ -27,6 +27,10 @@ export const bookSchema = z
   category: z.string().trim().max(60).default(""),
   featured: z.boolean().default(false),
   published: z.boolean().default(true),
+  })
+  .refine((b) => b.mrp === 0 || b.mrp >= b.price, {
+    message: "MRP can't be lower than the selling price (use 0 for no MRP).",
+    path: ["mrp"],
   })
   .refine((b) => !b.published || b.images.length > 0, {
     message: "Add at least one cover image before publishing, or save as draft.",
