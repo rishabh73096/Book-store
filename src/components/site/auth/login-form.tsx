@@ -19,7 +19,7 @@ import { brand } from "@/data/brand";
 import { FieldError, FieldLabel } from "@/components/ui/form-field";
 
 const fieldClass =
-  "mt-2 h-auto w-full rounded-none border-0 border-b border-foreground/30 bg-transparent px-0 pb-2 text-sm focus-visible:border-foreground focus-visible:ring-0 aria-invalid:ring-0";
+  "mt-2 h-11 w-full px-3 text-sm aria-invalid:border-destructive";
 
 
 export function LoginForm() {
@@ -151,7 +151,7 @@ export function LoginForm() {
             <Button
               type="submit"
               disabled={isVerifying || otp.length < 6}
-              className="h-auto w-full rounded-none bg-neutral-950 py-3 text-xs font-medium tracking-widest text-white uppercase hover:bg-neutral-800 disabled:opacity-50"
+              className="h-auto w-full py-3 text-sm tracking-wide uppercase disabled:opacity-50"
             >
               <TextReveal>{isVerifying ? "Verifying..." : "Verify & sign in"}</TextReveal>
             </Button>
@@ -219,7 +219,7 @@ export function LoginForm() {
               type={showPassword ? "text" : "password"}
               placeholder="••••••••"
               aria-invalid={!!credForm.formState.errors.password}
-              className={`${fieldClass} pr-8`}
+              className={`${fieldClass} pr-10`}
               {...credForm.register("password")}
             />
             <Button
@@ -239,7 +239,7 @@ export function LoginForm() {
           <Button
             type="submit"
             disabled={credForm.formState.isSubmitting}
-            className="h-auto w-full rounded-none bg-neutral-950 py-3 text-xs font-medium tracking-widest text-white uppercase hover:bg-neutral-800"
+            className="h-auto w-full py-3 text-sm tracking-wide uppercase"
           >
             <TextReveal>{credForm.formState.isSubmitting ? "Sending code…" : "Log in"}</TextReveal>
           </Button>

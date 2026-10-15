@@ -75,11 +75,11 @@ export function AppSidebar({
                         render={<Link href={item.url} />}
                         className={cn(
                           isActive &&
-                            "rounded-md bg-black p-3 my-1 text-white hover:bg-black hover:text-white data-active:bg-black data-active:text-white"
+                            "rounded-md border-2 border-ink bg-ink p-3 my-1 text-paper shadow-[3px_3px_0_#ffb627] hover:bg-ink hover:text-paper data-active:bg-ink data-active:text-paper"
                         )}
                       >
                         {isActive ? (
-                          <span className="flex size-5 items-center justify-center rounded-md bg-white/15 text-white">
+                          <span className="flex size-5 items-center justify-center rounded-md bg-clay text-ink">
                             <item.icon className="size-3.5" />
                           </span>
                         ) : (

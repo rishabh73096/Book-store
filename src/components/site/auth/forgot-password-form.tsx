@@ -14,7 +14,7 @@ import { TextReveal } from "@/components/site/text-reveal";
 import { BackLink } from "@/components/site/auth/back-link";
 
 const fieldClass =
-  "mt-2 h-auto w-full rounded-none border-0 border-b border-foreground/30 bg-transparent px-0 pb-2 text-sm focus-visible:border-foreground focus-visible:ring-0 aria-invalid:ring-0";
+  "mt-2 h-11 w-full px-3 text-sm aria-invalid:border-destructive";
 
 export function ForgotPasswordForm() {
   const router = useRouter();
@@ -62,7 +62,7 @@ export function ForgotPasswordForm() {
           <Button
             type="submit"
             disabled={isSubmitting}
-            className="h-auto w-full rounded-none bg-neutral-950 py-3 text-xs font-medium tracking-widest text-white uppercase hover:bg-neutral-800"
+            className="h-auto w-full py-3 text-sm tracking-wide uppercase"
           >
             <TextReveal>Send code</TextReveal>
           </Button>

@@ -19,7 +19,7 @@ import { TextReveal } from "@/components/site/text-reveal";
 import { BackLink } from "@/components/site/auth/back-link";
 
 const fieldClass =
-  "mt-2 h-auto w-full rounded-none border-0 border-b border-foreground/30 bg-transparent px-0 pb-2 text-sm focus-visible:border-foreground focus-visible:ring-0 aria-invalid:ring-0";
+  "mt-2 h-11 w-full px-3 text-sm aria-invalid:border-destructive";
 
 export function ResetPasswordForm({ email }: { email: string }) {
   const router = useRouter();
@@ -161,7 +161,7 @@ export function ResetPasswordForm({ email }: { email: string }) {
               <Button
                 type="submit"
                 disabled={isVerifyingOtp || otp.length < 6}
-                className="h-auto w-full rounded-none bg-neutral-950 py-3 text-xs font-medium tracking-widest text-white uppercase hover:bg-neutral-800 disabled:opacity-50"
+                className="h-auto w-full py-3 text-sm tracking-wide uppercase disabled:opacity-50"
               >
                 <TextReveal>{isVerifyingOtp ? "Verifying..." : "Verify code"}</TextReveal>
               </Button>
@@ -220,7 +220,7 @@ export function ResetPasswordForm({ email }: { email: string }) {
                   type={showPassword ? "text" : "password"}
                   placeholder="••••••••"
                   aria-invalid={!!passwordForm.formState.errors.password}
-                  className={`${fieldClass} pr-8`}
+                  className={`${fieldClass} pr-10`}
                   {...passwordForm.register("password")}
                 />
                 <Button
@@ -249,7 +249,7 @@ export function ResetPasswordForm({ email }: { email: string }) {
                   type={showConfirmPassword ? "text" : "password"}
                   placeholder="••••••••"
                   aria-invalid={!!passwordForm.formState.errors.confirmPassword}
-                  className={`${fieldClass} pr-8`}
+                  className={`${fieldClass} pr-10`}
                   {...passwordForm.register("confirmPassword")}
                 />
                 <Button
@@ -273,7 +273,7 @@ export function ResetPasswordForm({ email }: { email: string }) {
               <Button
                 type="submit"
                 disabled={passwordForm.formState.isSubmitting || done}
-                className="h-auto w-full rounded-none bg-neutral-950 py-3 text-xs font-medium tracking-widest text-white uppercase hover:bg-neutral-800"
+                className="h-auto w-full py-3 text-sm tracking-wide uppercase"
               >
                 <TextReveal>{done ? "Password updated" : "Reset password"}</TextReveal>
               </Button>

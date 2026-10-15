@@ -12,6 +12,7 @@ export function OverviewChart({ data }: { data: { day: string; inquiries: number
         grid: { top: 8, right: 12, bottom: 24, left: 36 },
         xAxis: {
           type: "category",
+          boundaryGap: false,
           data: data.map((d) => d.day),
           axisLine: { show: false },
           axisTick: { show: false },

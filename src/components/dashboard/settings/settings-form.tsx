@@ -13,7 +13,7 @@ import type { SettingsInput } from "@/lib/validations/settings";
 
 function Field({ label, children }: { label: string; children: React.ReactNode }) {
   return (
-    <div className="flex flex-col gap-1.5">
+    <div className="flex flex-col gap-2">
       <FieldLabel>{label}</FieldLabel>
       {children}
     </div>
@@ -49,13 +49,13 @@ export function SettingsForm({ initial }: { initial: SettingsInput }) {
   }
 
   return (
-    <form onSubmit={onSubmit} className="flex max-w-3xl flex-col gap-6">
+    <form onSubmit={onSubmit} className="flex max-w-3xl flex-col gap-8">
       <Card>
         <CardHeader>
           <CardTitle>Home page</CardTitle>
           <CardDescription>Heading and intro shown at the top of the home page.</CardDescription>
         </CardHeader>
-        <CardContent className="flex flex-col gap-4">
+        <CardContent className="flex flex-col gap-6">
           <Field label="Author name">
             <Input placeholder="e.g. Anita Sharma" {...text("authorName")} />
           </Field>
@@ -75,7 +75,7 @@ export function SettingsForm({ initial }: { initial: SettingsInput }) {
         <CardHeader>
           <CardTitle>About page</CardTitle>
         </CardHeader>
-        <CardContent className="flex flex-col gap-4">
+        <CardContent className="flex flex-col gap-6">
           <ImageUploadField
             label="Author photo"
             value={values.authorImage}
@@ -112,7 +112,7 @@ export function SettingsForm({ initial }: { initial: SettingsInput }) {
           <CardTitle>Contact & social</CardTitle>
           <CardDescription>Shown on the contact page and footer.</CardDescription>
         </CardHeader>
-        <CardContent className="grid gap-4 sm:grid-cols-2">
+        <CardContent className="grid gap-x-5 gap-y-6 sm:grid-cols-2">
           <Field label="Email">
             <Input type="email" placeholder="hello@example.com" {...text("email")} />
           </Field>
@@ -138,7 +138,7 @@ export function SettingsForm({ initial }: { initial: SettingsInput }) {
         <CardHeader>
           <CardTitle>Shipping</CardTitle>
         </CardHeader>
-        <CardContent className="grid gap-4 sm:grid-cols-2">
+        <CardContent className="grid gap-x-5 gap-y-6 sm:grid-cols-2">
           <Field label="Shipping charge (₹)">
             <Input
               type="number"

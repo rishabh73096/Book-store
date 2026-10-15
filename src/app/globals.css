@@ -60,80 +60,80 @@
 }
 
 :root {
-  --background: #FEFBF8;
-  --foreground: oklch(0.145 0 0);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
-  --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
-  --chart-1: oklch(0.87 0 0);
-  --chart-2: oklch(0.556 0 0);
-  --chart-3: oklch(0.439 0 0);
-  --chart-4: oklch(0.371 0 0);
-  --chart-5: oklch(0.269 0 0);
-  --radius: 0.625rem;
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.205 0 0);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
+  --background: #fff5e1;
+  --foreground: #17140f;
+  --card: #ffffff;
+  --card-foreground: #17140f;
+  --popover: #ffffff;
+  --popover-foreground: #17140f;
+  --primary: #c93a22;
+  --primary-foreground: #ffffff;
+  --secondary: #ffe8bf;
+  --secondary-foreground: #17140f;
+  --muted: #f6e9cc;
+  --muted-foreground: #5b5247;
+  --accent: #ffb627;
+  --accent-foreground: #17140f;
+  --destructive: #b3261e;
+  --border: #d8c9a8;
+  --input: #17140f;
+  --ring: #17140f;
+  --chart-1: #c93a22;
+  --chart-2: #ffb627;
+  --chart-3: #6fb58f;
+  --chart-4: #8f73d6;
+  --chart-5: #17140f;
+  --radius: 0.25rem;
+  --sidebar: #ffe8bf;
+  --sidebar-foreground: #17140f;
+  --sidebar-primary: #17140f;
+  --sidebar-primary-foreground: #fff5e1;
+  --sidebar-accent: #ffb627;
+  --sidebar-accent-foreground: #17140f;
+  --sidebar-border: #17140f;
+  --sidebar-ring: #17140f;
 }
 
 /* Dashboard-only light-mode background tint — applied instead of `.dark` on the
    dashboard shell wrapper, so it never bleeds into the site (always light) or the
    dashboard's own dark mode (which keeps the tokens in `.dark` below). */
 .dashboard-light-bg {
-  --background: #FEFBF8;
-  --sidebar: #FEFBF8;
+  background-image: radial-gradient(rgb(23 20 15 / 0.09) 1px, transparent 1.2px);
+  background-size: 22px 22px;
 }
 
 .dark {
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.205 0 0);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.205 0 0);
-  --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.922 0 0);
-  --primary-foreground: oklch(0.205 0 0);
-  --secondary: oklch(0.269 0 0);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.269 0 0);
-  --accent-foreground: oklch(0.985 0 0);
-  --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.556 0 0);
-  --chart-1: oklch(0.87 0 0);
-  --chart-2: oklch(0.556 0 0);
-  --chart-3: oklch(0.439 0 0);
-  --chart-4: oklch(0.371 0 0);
-  --chart-5: oklch(0.269 0 0);
-  --sidebar: oklch(0.205 0 0);
-  --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.269 0 0);
-  --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.556 0 0);
+  --background: #17140f;
+  --foreground: #fff5e1;
+  --card: #241f18;
+  --card-foreground: #fff5e1;
+  --popover: #241f18;
+  --popover-foreground: #fff5e1;
+  --primary: #ffb627;
+  --primary-foreground: #17140f;
+  --secondary: #33291d;
+  --secondary-foreground: #fff5e1;
+  --muted: #2d261d;
+  --muted-foreground: #c9bba0;
+  --accent: #c93a22;
+  --accent-foreground: #ffffff;
+  --destructive: #ff7a6b;
+  --border: #4a3f30;
+  --input: #fff5e1;
+  --ring: #ffb627;
+  --chart-1: #ffb627;
+  --chart-2: #ff7a6b;
+  --chart-3: #8fd3b0;
+  --chart-4: #b9a3ee;
+  --chart-5: #fff5e1;
+  --sidebar: #1d1812;
+  --sidebar-foreground: #fff5e1;
+  --sidebar-primary: #ffb627;
+  --sidebar-primary-foreground: #17140f;
+  --sidebar-accent: #c93a22;
+  --sidebar-accent-foreground: #ffffff;
+  --sidebar-border: #fff5e1;
+  --sidebar-ring: #ffb627;
 }
 
 @layer base {
@@ -456,3 +456,55 @@
 @media (prefers-reduced-motion: reduce) {
   .draw-line { animation: none; stroke-dasharray: none; }
 }
+
+
+/* ------------------------------------------------------------------
+   Admin + login share the Neo-zine look (thick ink borders, hard shadows).
+   Dialogs/popovers render in portals, so these selectors are global.
+   ------------------------------------------------------------------ */
+[data-slot="card"] {
+  border: 2px solid var(--foreground);
+  border-radius: 0.25rem;
+  box-shadow: 4px 4px 0 var(--foreground);
+  --tw-ring-shadow: 0 0 #0000;
+}
+.dark [data-slot="card"] { border-color: var(--border); box-shadow: 4px 4px 0 var(--border); }
+[data-slot="card-title"] { font-family: var(--font-heading); font-weight: 400; font-size: 1.35rem; }
+[data-slot="input"],
+[data-slot="textarea"],
+[data-slot="select-trigger"] {
+  border: 2px solid var(--foreground);
+  border-radius: 0.25rem;
+  background: #fff;
+}
+.dark [data-slot="input"], .dark [data-slot="textarea"], .dark [data-slot="select-trigger"] { background: #17140f; border-color: var(--border); }
+[data-slot="input"]:focus-visible,
+[data-slot="textarea"]:focus-visible,
+[data-slot="select-trigger"]:focus-visible { box-shadow: 3px 3px 0 var(--foreground); outline: none; }
+[data-slot="dialog-content"],
+[data-slot="select-content"],
+[data-slot="popover-content"],
+[data-slot="dropdown-menu-content"] {
+  border: 2px solid var(--foreground);
+  border-radius: 0.25rem;
+  box-shadow: 5px 5px 0 var(--foreground);
+  --tw-ring-shadow: 0 0 #0000;
+}
+[data-slot="table-head"] { color: var(--foreground); font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase; font-weight: 700; }
+[data-slot="badge"] { border: 2px solid var(--foreground); border-radius: 0.2rem; font-weight: 700; }
+[data-sidebar="sidebar"], [data-slot="sidebar-inner"] { border-right: 2px solid var(--sidebar-border); }
+h1 { font-family: var(--font-heading); }
+.text-brand-name { font-family: var(--font-heading); font-variant: normal; font-weight: 400; font-size: 28px; letter-spacing: -0.01em; }
+
+/* Admin + login pages: dotted cream canvas */
+.zine-auth {
+  min-height: 100vh;
+  background-color: var(--color-clay);
+  background-image: radial-gradient(rgb(23 20 15 / 0.18) 1px, transparent 1.2px);
+  background-size: 22px 22px;
+}
+
+[data-slot="card"] { --card-spacing: 1.25rem; }
+[data-slot="card-header"] { row-gap: 0.4rem; }
+[data-slot="card-content"] { padding-top: 0.25rem; }
+main > div > .flex.flex-col.gap-6 { gap: 2rem; }

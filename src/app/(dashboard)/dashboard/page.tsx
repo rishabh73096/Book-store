@@ -56,7 +56,7 @@ export default async function DashboardPage() {
   const recentMessages = messages.slice(0, 5);
 
   return (
-    <div className="flex flex-col gap-6">
+    <div className="flex flex-col gap-8">
       <div>
         <h1 className="text-2xl font-semibold">Overview</h1>
         <p className="mt-1 text-sm text-muted-foreground">Snapshot of the store.</p>

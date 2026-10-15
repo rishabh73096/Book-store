@@ -10,7 +10,7 @@ export function StatSparkline({ data, id }: { data: number[]; id: string }) {
       echarts={echarts}
       option={{
         grid: { top: 6, right: 2, bottom: 0, left: 2 },
-        xAxis: { type: "category", show: false, data: data.map((_, i) => i) },
+        xAxis: { type: "category", show: false, boundaryGap: false, data: data.map((_, i) => i) },
         yAxis: { type: "value", show: false, min: (v: { min: number }) => Math.min(0, v.min) },
         tooltip: {
           trigger: "axis",

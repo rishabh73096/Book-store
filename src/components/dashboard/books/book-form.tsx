@@ -36,7 +36,7 @@ const EMPTY: BookInput = {
 
 function Field({ label, children }: { label: string; children: React.ReactNode }) {
   return (
-    <div className="flex flex-col gap-1.5">
+    <div className="flex flex-col gap-2">
       <FieldLabel>{label}</FieldLabel>
       {children}
     </div>
@@ -75,8 +75,8 @@ export function BookForm({ bookId, initial }: { bookId?: string; initial?: BookI
   }
 
   return (
-    <form onSubmit={onSubmit} className="flex max-w-3xl flex-col gap-5">
-      <div className="grid gap-4 sm:grid-cols-2">
+    <form onSubmit={onSubmit} className="flex max-w-3xl flex-col gap-7">
+      <div className="grid gap-x-5 gap-y-6 sm:grid-cols-2">
         <Field label="Title">
           <Input
             required
