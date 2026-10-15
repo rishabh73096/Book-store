@@ -1,0 +1,128 @@
+[
+  {
+    "id": "local-1",
+    "title": "The Quiet Hours",
+    "slug": "quiet-hours",
+    "author": "Suraj",
+    "shortDescription": "Poems for the hour after everyone has gone to sleep.",
+    "description": "A collection of short poems about solitude that does not feel lonely. Written between midnight and morning, The Quiet Hours is for anyone learning to sit with themselves.\n\nEach poem fits on a single page, so the book can be opened anywhere and still make sense.",
+    "excerpt": "The kettle clicks off.\nThe house breathes out.\n\nI used to fill this silence\nwith somebody else's noise.\nTonight I let it stay,\nand it turns out to be company.",
+    "category": "Healing",
+    "format": "Paperback",
+    "language": "English",
+    "pages": 96,
+    "isbn": "",
+    "price": 349,
+    "mrp": 449,
+    "stock": 25,
+    "featured": true,
+    "images": [
+      "/books/book-1.jpg"
+    ]
+  },
+  {
+    "id": "local-2",
+    "title": "Soft Return",
+    "slug": "soft-return",
+    "author": "Suraj",
+    "shortDescription": "Love poems about coming back, gently.",
+    "description": "Soft Return follows one love story from the first message to the long, patient middle. It is about choosing someone again on the ordinary Tuesdays.",
+    "excerpt": "You do not arrive like thunder.\nYou arrive like the light\nthat was always on in the hallway,\nso I never had to ask\nwhether I was welcome.",
+    "category": "Love",
+    "format": "Paperback",
+    "language": "English",
+    "pages": 88,
+    "isbn": "",
+    "price": 299,
+    "mrp": 399,
+    "stock": 25,
+    "featured": false,
+    "images": [
+      "/books/book-2.jpg"
+    ]
+  },
+  {
+    "id": "local-3",
+    "title": "The Long Way Home",
+    "slug": "the-long-way-home",
+    "author": "Suraj",
+    "shortDescription": "Essays on leaving, wandering and finding your own front door.",
+    "description": "Twelve short essays about the detours that taught the author who they were. Equal parts travel diary and conversation with a friend.",
+    "excerpt": "Everyone gave me directions.\nNobody mentioned that home\nis not a place you reach,\nbut a way of walking\nyou slowly learn.",
+    "category": "Self-Discovery",
+    "format": "Paperback",
+    "language": "English",
+    "pages": 144,
+    "isbn": "",
+    "price": 399,
+    "mrp": 499,
+    "stock": 25,
+    "featured": false,
+    "images": [
+      "/books/book-3.jpg"
+    ]
+  },
+  {
+    "id": "local-4",
+    "title": "Small Mercies",
+    "slug": "small-mercies",
+    "author": "Suraj",
+    "shortDescription": "Tiny stories about the kindness nobody notices.",
+    "description": "Small Mercies collects fifty-two very short stories — one for every week — about strangers, neighbours and the small acts that quietly hold a day together.",
+    "excerpt": "The tea seller added extra sugar\nwithout being asked.\nI had not told him\nit was my father's birthday\nand I was far from home.",
+    "category": "Life",
+    "format": "Paperback",
+    "language": "English",
+    "pages": 120,
+    "isbn": "",
+    "price": 279,
+    "mrp": 0,
+    "stock": 25,
+    "featured": false,
+    "images": [
+      "/books/old-books-shelf.jpg"
+    ]
+  },
+  {
+    "id": "local-5",
+    "title": "Letters to Someone Kind",
+    "slug": "letters-to-someone-kind",
+    "author": "Suraj",
+    "shortDescription": "Unsent letters, written with a full heart.",
+    "description": "A book of letters addressed to no one in particular and everyone who needed them: to a younger self, a friend who moved away, a love that ended well.",
+    "excerpt": "Dear you,\nI hope someone is\nreminding you to eat,\nto rest, to laugh\nat the wrong moment.\nI would, if I were there.",
+    "category": "Love",
+    "format": "Paperback",
+    "language": "English",
+    "pages": 104,
+    "isbn": "",
+    "price": 329,
+    "mrp": 0,
+    "stock": 25,
+    "featured": false,
+    "images": [
+      "/books/book-stack-monochrome.jpg"
+    ]
+  },
+  {
+    "id": "local-6",
+    "title": "Unlearning",
+    "slug": "unlearning",
+    "author": "Suraj",
+    "shortDescription": "A year of letting go of what was never yours.",
+    "description": "Unlearning is a year-long notebook of reflections on perfectionism, comparison and rest. Short entries, honest questions, and room to write back.",
+    "excerpt": "I was taught to be impressive.\nNobody taught me to be at ease.\nThis year I am practising\nthe second one.",
+    "category": "Self-Discovery",
+    "format": "Paperback",
+    "language": "English",
+    "pages": 132,
+    "isbn": "",
+    "price": 369,
+    "mrp": 449,
+    "stock": 25,
+    "featured": false,
+    "images": [
+      "/books/open-books-wall.jpg"
+    ]
+  }
+]
